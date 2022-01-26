@@ -10,7 +10,7 @@ module.exports = {
     },
     extend: {
       backgroundImage: {
-        'matrix': "url('https://wallpaperwaifu.com/wp-content/uploads/2020/01/night-coffee-shop-thumb.jpg')"
+        'coffee': "url('https://wallpaperwaifu.com/wp-content/uploads/2020/01/night-coffee-shop-thumb.jpg')"
       }
     },
   },

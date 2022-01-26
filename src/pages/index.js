@@ -1,40 +1,73 @@
-import React, { useState, useEffect } from 'react';
-
-import axios from 'axios';
-
+import React, { useEffect, useState } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import Titles from '../components/titles';
 import Forms from '../components/form';
 import CardImg from '../components/img-card';
 
 
 const HomePage = () => {
+  //? constatnte para uso do router nativo do next 
+  const routes = useRouter()
 
-  const user = 'dtfigueiredo'
+  const [username, setUsername] = useState('')
+
+  const handleUsernameChange = (usernameValue) => {
+    setUsername(usernameValue)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    routes.push('/chat')
+  }
+
+  // const handleFetchData = async () => {
+  //   fetch(`https://api.github.com/users/${username}/`)
+
+  //   const response = await fetch(`https://api.github.com/users/${username}/`)
+  //   const result = await response.json()
+  //   console.log(result)
+  //   return result
+  // }
+
+  // useEffect(() => {
+  //   handleFetchData()
+  // })
 
   return (
-    <main className="wrapper">
+    <>
+      <Head>
+        <title>Karikacord</title>
+        <meta name="description" content="Página criada para estudo durante a Imersão React da Alura" />
+        <meta name="keywords" content="" />
+      </Head>
 
-      <section className="box">
+      <main className="wrapper">
 
-        <div className="text-box">
-          <Titles
-            tag="h1"
-            content="Bem-vindo de volta ao Karikord" />
+        <section className="box">
 
-          <Titles
-            tag="h2"
-            content="Título da página" />
+          <div className="f-col-m4 text-box">
+            <Titles
+              tag="h1"
+              content="Bem-vindo de volta ao Karikord" />
 
-          <Forms />
-        </div>
+            <Titles
+              tag="h2"
+              content="Título da página" />
 
-        <div className="card-box">
-          <CardImg
-            user={user} />
-        </div>
+            <Forms
+              user={username}
+              handleSubmit={handleSubmit}
+              handleUsernameChange={handleUsernameChange} />
+          </div>
 
-      </section>
-    </main >
+          <div className="f-col-m4 card-box">
+            <CardImg user={username} />
+          </div>
+
+        </section>
+      </main >
+    </>
   );
 };
 
