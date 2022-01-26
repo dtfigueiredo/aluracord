@@ -4,7 +4,6 @@ import debounce from 'lodash.debounce';
 const Forms = (props) => {
 
   const handleChange = event => props.handleUsernameChange(event.target.value)
-
   const debouncedChange = debounce(handleChange, 300)
 
   return (

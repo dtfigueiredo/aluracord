@@ -11,9 +11,11 @@ const HomePage = () => {
   const routes = useRouter()
 
   const [username, setUsername] = useState('')
+  const [gituser, setGituser] = useState('')
 
   const handleUsernameChange = (usernameValue) => {
     setUsername(usernameValue)
+    handleFetchData(usernameValue)
   }
 
   const handleSubmit = (event) => {
@@ -21,18 +23,11 @@ const HomePage = () => {
     routes.push('/chat')
   }
 
-  // const handleFetchData = async () => {
-  //   fetch(`https://api.github.com/users/${username}/`)
-
-  //   const response = await fetch(`https://api.github.com/users/${username}/`)
-  //   const result = await response.json()
-  //   console.log(result)
-  //   return result
-  // }
-
-  // useEffect(() => {
-  //   handleFetchData()
-  // })
+  const handleFetchData = async (usernameValue) => {
+    fetch(`https://api.github.com/users/${usernameValue}`)
+      .then((response) => response.json())
+      .then((data) => setGituser(data))
+  }
 
   return (
     <>
@@ -62,7 +57,7 @@ const HomePage = () => {
           </div>
 
           <div className="f-col-m4 card-box">
-            <CardImg user={username} />
+            <CardImg user={gituser} />
           </div>
 
         </section>

@@ -1,13 +1,18 @@
-Projeto de "Chat Discord" desenvolvido na Imersão React da Alura, realizada entre 24 e 28 de Janeiro 2022.
+# Karikord
 
-## Getting Started
+Versão de chat 'discord', desenvolvido na Imersão React da Alura, realizado entre 24 e 28 de Janeiro de 2022.
 
-First, run the development server:
+Como desafio pessoal, além do aprendizado e experiência do evento, resolvi mudar algumas configurações passadas durante as aulas, como: estrutura de pastas e componentes, e modelo de estilização.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+As tecnologias utilizadas durante no projeto foram:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- NextJs
+- TailwindCSS
+
+## Link
+
+Projeto online: https://myaluracord.vercel.app/
+
+## Aprendizado
+
+Durante os estudos para a conclusão do projeto, aprendi sobre conceitos úteis e novos para mim, como o debounce. Utilizei o debouce no input da página principal através da biblioteca "lodash".
