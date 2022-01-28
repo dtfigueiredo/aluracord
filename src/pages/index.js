@@ -21,7 +21,7 @@ const HomePage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    routes.push('/chat')
+    routes.push('/chatpage')
   }
 
   const handleFetchData = async (usernameValue) => {
