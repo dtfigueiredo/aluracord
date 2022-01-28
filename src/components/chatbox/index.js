@@ -1,6 +1,6 @@
 import React from 'react';
 import MessageHeader from '../message-header';
-import { FaTrash } from 'react-icons/fa'
+import { FaTrash } from 'react-icons/fa';
 
 const ChatBox = (props) => {
 
