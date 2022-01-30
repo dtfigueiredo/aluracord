@@ -6,7 +6,7 @@ const ChatHeader = (props) => {
   return (
     <div className="w-full p-1 mb-2 flex justify-between items-center bg-slate-800/40 rounded-lg">
 
-      <Titles tag="h1" content="Chat" />
+      <Titles tag="h1" content="Karikord Chatpage" />
 
       <button
         onClick={() => props.handleLogout()}

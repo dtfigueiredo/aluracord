@@ -26,9 +26,10 @@ const HomePage = () => {
 
   const handleFetchData = async (usernameValue) => {
     fetch(`https://api.github.com/users/${usernameValue}`)
-      .then((response) => response.json())
-      .then((data) => setGituser(data))
-      .catch((error) => console.error(error))
+
+    const response = await fetch(`https://api.github.com/users/${usernameValue}`)
+    const data = await response.json()
+    setGituser(data)
   }
 
   return (

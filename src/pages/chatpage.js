@@ -1,37 +1,64 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router'
 import Header from '../components/header'
 import ChatBox from '../components/chatbox'
 import ChatForms from '../components/form-chat'
+import { createClient } from '@supabase/supabase-js'//*import da lib supabase
+import { supabaseKey, supabaseUrl } from '../../utils/supabase' //*import das utils do supabase
+
+const supabaseClient = createClient(supabaseUrl, supabaseKey)
 
 const ChatPage = () => {
-
   const routes = useRouter()
   const handleLogout = () => routes.push('/')
 
   const [userMessage, setUserMessage] = useState('')
   const [messageList, setMessageList] = useState([])
 
+  //* UseEffect irá rodar sempre que a página for inicializada e quando houver alteração no estado dos itens dentro do array de dependências.
+  useEffect(() => {
+
+    supabaseClient
+      .from('MessageList')
+      .select('*')
+      // .order('id', { ascending: false }) //* ordenando o array de mensagenspara que a ultima fique por baixo
+      .then(({ data }) => setMessageList(data))
+  }, [])
+
   const handleUserMessage = (userMessageInput) => {
     setUserMessage(userMessageInput)
   }
 
-  const handleMessageList = (newMessage) => {
+  const handleMessageList = (userMessage) => {
+    //* criando um objeto com os mesmos campos do supabase (menos id, pois gera automático)
     const messageProps = {
-      id: messageList.length + 1,
-      user: 'Logged User',
-      text: newMessage,
+      user: 'anajuliafs',
+      content: userMessage, //* mensagem que vem do input
     }
-    setMessageList([...messageList, messageProps])
+
+    //* inserindo a nova mensagem no banco de dados
+    supabaseClient
+      .from('MessageList')
+      .insert([messageProps])
+      .then(({ data }) => {
+        setMessageList([...messageList, data[0]])
+      })
   }
 
-  const handleDeleteMessage = (id) => {
-    let filteredMessageList = messageList.filter(message => {
-      return (message.id !== id)
-    })
+  const handleDeleteMessage = (messageToDelete) => {
+    const messageId = messageToDelete.id
 
-    setMessageList(filteredMessageList)
+    supabaseClient
+      .from('MessageList')
+      .delete(messageToDelete, messageId)
+      .then(({ data }) => { console.log(data); console.log(messageId) })
+
+    // let filteredMessageList = messageList.filter(message => {
+    //   return (message.id !== id)
+    // })
+
+    // setMessageList(filteredMessageList)
   }
 
   return (
@@ -61,7 +88,6 @@ const ChatPage = () => {
             handleMessageList={handleMessageList} />
 
         </section>
-
       </main>
     </>
   );
