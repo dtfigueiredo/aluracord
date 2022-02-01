@@ -9,6 +9,15 @@ import { supabaseKey, supabaseUrl } from '../../utils/supabase' //*import das ut
 
 const supabaseClient = createClient(supabaseUrl, supabaseKey)
 
+/* funcção para atualizar a tabela em tempo real. por ser uma feature opcional é preciso ativar dentro das configurações de database->replications no supabase*/
+const realTimeMessageList = (handleUserMessage) => {
+  return supabaseClient
+    .from('MessageList')
+    //!função que é passada como parâmetro para o metodo .on é a mesma que utilizamos para trabalhar com o setUseState da inserção de mensagens
+    .on('INSERT', (realTimeMessage) => handleUserMessage(realTimeMessage.new))
+    .subscribe();
+}
+
 const ChatPage = () => {
   const routes = useRouter()
   const loggedUser = routes.query.username
@@ -25,6 +34,15 @@ const ChatPage = () => {
       .select('*')
       .order('id', { ascending: false }) //* ordenando o array de mensagenspara que a ultima fique por baixo
       .then(({ data }) => setMessageList(data))
+
+    //!função que foi criada fora do componente para trabalhar com a versão atual da lista, seguindo a documentação do supa e utilizando os metódos sugeridos: utilizando um callback sempre que houver um evento do tipo INSERT
+    realTimeMessageList((newMesssage) => {
+      //? É passado um callback para o setState para que o react não leia a versão original do array, que é vazio (linha 27)
+      setMessageList((realTimeList) => {
+        return [newMesssage, ...realTimeList]
+      })
+    })
+
   }, [])
 
   const handleUserMessage = (userMessageInput) => { setUserMessage(userMessageInput) }
@@ -42,7 +60,8 @@ const ChatPage = () => {
       .from('MessageList')
       .insert([messageProps])
       .then(({ data }) => {
-        setMessageList([data[0], ...messageList])
+        console.log('nova mensagem: ', data);
+        //   setMessageList([data[0], ...messageList])
       })
   }
 
