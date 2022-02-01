@@ -12,7 +12,6 @@ const supabaseClient = createClient(supabaseUrl, supabaseKey)
 const ChatPage = () => {
   const routes = useRouter()
   const loggedUser = routes.query.username
-  console.log(loggedUser)
   const handleLogout = () => routes.push('/')
 
   const [userMessage, setUserMessage] = useState('')

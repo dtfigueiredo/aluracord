@@ -10,6 +10,10 @@ const ChatForms = (props) => {
     props.handleUserMessage('')
   }
 
+  const handleSticker = (sticker) => {
+    props.handleMessageList(`:sticker:${sticker}`)
+  }
+
   return (
     <form
       onSubmit={handleLista}
@@ -25,7 +29,9 @@ const ChatForms = (props) => {
         focus:border-cyan-500"/>
 
       <div className="flex justify-around items-center">
-        <ButtonSendSticker />
+        {/* button com stickers */}
+        <ButtonSendSticker
+          handleSticker={handleSticker} />
 
         <button
           type="submit"

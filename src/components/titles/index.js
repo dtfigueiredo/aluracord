@@ -6,7 +6,7 @@ const Titles = (props) => {
   let styles = ''
   props.tag === 'h1'
     ? styles = "text-white font-headings text-center text-2xl font-bold"
-    : styles = "text-gray-400 font-body text-lg pb-2"
+    : styles = "text-gray-300 font-body text-center text-lg pb-2"
 
   return (
     <>
