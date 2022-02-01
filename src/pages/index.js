@@ -8,7 +8,7 @@ import Linkedin from '../components/utils/linkedin'
 
 const HomePage = () => {
 
-  //? constatnte para uso do router nativo do next 
+  //* constatnte para uso do router nativo do next 
   const routes = useRouter()
 
   const [username, setUsername] = useState('')
@@ -21,7 +21,9 @@ const HomePage = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    routes.push('/chatpage')
+    /* passando o valor do usuário por url para receber na página de chat.
+    ps: resolução mais "fácil" para esse o simples proprósito de simular autenticação*/
+    routes.push(`/chatpage?username=${username}`)
   }
 
   const handleFetchData = async (usernameValue) => {

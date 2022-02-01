@@ -8,6 +8,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@skynexui/components": "^1.24.3",
     "@supabase/supabase-js": "^1.29.4",
     "lodash.debounce": "^4.0.8",
     "moment": "^2.29.1",

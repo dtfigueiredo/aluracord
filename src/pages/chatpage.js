@@ -11,6 +11,8 @@ const supabaseClient = createClient(supabaseUrl, supabaseKey)
 
 const ChatPage = () => {
   const routes = useRouter()
+  const loggedUser = routes.query.username
+  console.log(loggedUser)
   const handleLogout = () => routes.push('/')
 
   const [userMessage, setUserMessage] = useState('')
@@ -22,18 +24,17 @@ const ChatPage = () => {
     supabaseClient
       .from('MessageList')
       .select('*')
-      // .order('id', { ascending: false }) //* ordenando o array de mensagenspara que a ultima fique por baixo
+      .order('id', { ascending: false }) //* ordenando o array de mensagenspara que a ultima fique por baixo
       .then(({ data }) => setMessageList(data))
   }, [])
 
-  const handleUserMessage = (userMessageInput) => {
-    setUserMessage(userMessageInput)
-  }
+  const handleUserMessage = (userMessageInput) => { setUserMessage(userMessageInput) }
 
+  //* insert de mensagens no BD
   const handleMessageList = (userMessage) => {
     //* criando um objeto com os mesmos campos do supabase (menos id, pois gera automático)
     const messageProps = {
-      user: 'anajuliafs',
+      user: loggedUser,
       content: userMessage, //* mensagem que vem do input
     }
 
@@ -42,23 +43,25 @@ const ChatPage = () => {
       .from('MessageList')
       .insert([messageProps])
       .then(({ data }) => {
-        setMessageList([...messageList, data[0]])
+        setMessageList([data[0], ...messageList])
       })
   }
 
-  const handleDeleteMessage = (messageToDelete) => {
-    const messageId = messageToDelete.id
+  //* delete de mensagens
+  const handleDeleteMessage = async (messageList) => {
+    const messageId = messageList.id
+    const { data, error } = await supabaseClient
+      .from('MessageList')
+      .delete()
+      .match({ id: messageId })
 
     supabaseClient
       .from('MessageList')
-      .delete(messageToDelete, messageId)
-      .then(({ data }) => { console.log(data); console.log(messageId) })
-
-    // let filteredMessageList = messageList.filter(message => {
-    //   return (message.id !== id)
-    // })
-
-    // setMessageList(filteredMessageList)
+      .select('*')
+      .order('id', { ascending: false }) //* ordenando o array de mensagenspara que a ultima fique por baixo
+      .then(({ data }) => {
+        setMessageList([...data])
+      })
   }
 
   return (

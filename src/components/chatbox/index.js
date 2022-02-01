@@ -5,12 +5,10 @@ import MessageHeader from '../message-header'
 const ChatBox = (props) => {
 
   return (
-    //TODO ARRUMAR A DIREÇÃO DO SCROLL
-    <div className="w-full flex-1 overflow-y-scroll 
-    flex justify-between items-end bg-slate-800/40 rounded-lg">
+    <div className="w-full h-full overflow-y-scroll
+    flex flex-col bg-slate-800/40 rounded-lg">
 
-      <ul className="h-full flex-1">
-
+      <ul className="flex-1 h-full flex flex-col-reverse justify-end">
         {/* map que recebe o array de mensagems do backend e retorna uma li para cada registro dinamicamente */}
         {props.messageList.map(newMessage => {
           return (
@@ -19,10 +17,9 @@ const ChatBox = (props) => {
               px-2 pb-1 mb-1 rounded-lg bg-cyan-800/80 hover:bg-slate-700/40">
 
               <div className="flex justify-between items-center">
-                {/* message body */}
+
                 <MessageHeader newMessage={newMessage} />
 
-                {/* delete button */}
                 <button
                   onClick={() => props.filteredMessageList(newMessage)}
                   className="p-2 rounded-lg hover:bg-cyan-600">
